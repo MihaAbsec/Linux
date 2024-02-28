@@ -30,7 +30,7 @@
     height = 300
 
     # Position the notification in the top right corner
-    origin = top-center
+    origin = top-right
 
     # Offset from the origin
     offset = 5x30
@@ -310,22 +310,22 @@
     per_monitor_dpi = false
 
   [global]
-  frame_color = "#87a987"
+  frame_color = "#c6a0f6"
   separator_color= frame
-  timeout = 10
+  timeout = 5
 
   [urgency_low]
-  background = "#000000"
+  background = "#0B0C0E"
   foreground = "#DCDFE4"
 
   [urgency_normal]
-  background = "#000000"
+  background = "#0B0C0E"
   foreground = "#DCDFE4"
 
   [urgency_critical]
-  background = "#000000"
+  background = "#0B0C0E"
   foreground = "#DCDFE4"
-  frame_color = "#c4746e"
+  frame_color = "#E06C75"
   timeout = 0
 
 # Every section that isn't one of the above is interpreted as a rules to
