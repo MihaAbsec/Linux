@@ -14,5 +14,3 @@
 
 #### Fonts:
 - [Jetbrains Nerd Font](https://www.nerdfonts.com/)
-
-*I use Arch BTW*
