@@ -8,7 +8,12 @@
 # i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
-exec_always --no-startup-id autorandr --change mainLayout
+
+
+#MONITORING
+#exec_always --no-startup-id xrandr --auto --output HDMI-1-0 --mode 1920x1080 --rate 144
+#exec_always --no-startup-id autorandr --change mainLayout
+exec_always --no-startup-id xrandr --output HDMI-1-0 --auto --primary --output eDP-1 --auto --right-of HDMI-1-0
 exec --no-startup-id sleep 6 && setxkbmap -layout si -option 'grp:alt_shift_toggle'
 
 set $mod Mod4
@@ -247,17 +252,18 @@ smart_gaps off
 
 # Flameshot
 bindsym Print exec "flameshot gui"
-#exec_always --no-startup-id $mod+shift+r
+
+#sensitivity
 exec_always --no-startup-id xinput set-prop '13' 'libinput Accel Speed' -0.8
 
 # Set wallpaper
-exec_always feh --bg-fill Pictures/background.jpg
+exec_always feh --bg-fill /home/miha/wallpapers/background.png
 
 #brightness
  bindsym $mod+F12 exec backlight_control +10 
  bindsym $mod+F11 exec backlight_control -10
 
 #spotify_config
-bindsym $mod+F8 exec "sp next"
-bindsym $mod+F6 exec "sp prev"
-bindsym $mod+F7 exec "sp play"
+bindsym $mod+F8 exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+bindsym $mod+F6 exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+bindsym $mod+F7 exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
