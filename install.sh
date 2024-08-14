@@ -207,7 +207,7 @@ printf 'Install needed packages (y/N)? '
 read answer
 
 if [ "$answer" != "${answer#[Yy]}" ] ;then 
-    packages='i3 polybar picom rofi dunst kitty neofetch btop kvantum lxappearances'
+    packages='i3 polybar picom rofi dunst kitty neofetch btop kvantum lxappearances nemo'
     if [ -x "$(command -v apt)" ];       then sudo apt update && sudo apt install $packages
     elif [ -x "$(command -v pacman)" ];  then sudo pacman -Syy && sudo pacman -S $packages --noconfirm
     else echo "FAILED TO INSTALL PACKAGES: $packagesNeeded">&2; fi
