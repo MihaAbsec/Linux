@@ -68,6 +68,11 @@ bindsym $mod+Shift+q kill
 # rofi
 bindsym $mod+d exec rofi -theme ~/.config/rofi/run-menu.rasi -show drun 
 
+# Move to workspace
+#-----------------------------------------------#
+bindsym $mod+m move workspace to output left
+bindsym $mod+n move workspace to output up
+
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down
@@ -151,11 +156,7 @@ bindsym $mod+Shift+4 move container to workspace number $ws4
 bindsym $mod+Shift+5 move container to workspace number $ws5
 bindsym $mod+Shift+6 move container to workspace number $ws6
 bindsym $mod+Shift+7 move container to workspace number $ws7
-bindsym $mod+Shift+8 move container to workspace number $ws8
-bindsym $mod+Shift+9 move container to workspace number $ws9
-bindsym $mod+Shift+0 move container to workspace number $ws10
-
-bindsym $mod+m move workspace to output left
+bindsym $mod+Shift+8 move container t>output left
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -217,6 +218,8 @@ bindsym $mod+F4 exec pactl set-sink-mute 0 toggle
 # Startup
 exec picom -bf
 #exec dunst
+exec blueman-applet
+exec spotify
 exec vesktop
 exec redshift
 exec pasystray
@@ -226,32 +229,49 @@ exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1
 for_window [class="vesktop"] move container to workspace $ws9
 for_window [class="Spotify"] move container to workspace $ws10
 
-set $active-color             #A6DA95
-set $base-color             #16181D
-set $urgent-color           #E06C75
+set $rosewater #f4dbd6
+set $flamingo #f0c6c6
+set $pink #f5bde6
+set $mauve #c6a0f6
+set $red #ed8796
+set $maroon #ee99a0
+set $peach #f5a97f
+set $yellow #eed49f
+set $green #a6da95
+set $teal #8bd5ca
+set $sky #91d7e3
+set $sapphire #7dc4e4
+set $blue #8aadf4
+set $lavender #b7bdf8
+set $text #cad3f5
+set $subtext1 #b8c0e0
+set $subtext0 #a5adcb
+set $overlay2 #939ab7
+set $overlay1 #8087a2
+set $overlay0 #6e738d
+set $surface2 #5b6078
+set $surface1 #494d64
+set $surface0 #363a4f
+set $base #24273a
+set $mantle #1e2030
+set $crust #181926
 
-set $text-color             #DCDFE4
-set $active-text-color      #c6a0f6
-set $inactive-text-color    #51576d
-
-set $indicator-color        #16181D
-
+# target                 title     bg    text   indicator  border
+client.focused           $lavender $base $text  $rosewater $lavender
+client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
+client.unfocused         $overlay0 $base $text  $rosewater $overlay0
+client.urgent            $peach    $base $peach $overlay0  $peach
+client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
+client.background        $base
 hide_edge_borders both
-
-# class                 border                  backgr.                 text                    indicator               child_border
-client.focused          $active-color             $base-color             $active-text-color      $active-color           $active-color
-client.focused_inactive $active-color             $base-color             $text-color             $base-color             $base-color
-client.unfocused        $base-color             $base-color             $inactive-text-color    $base-color             $base-color
-client.urgent           $base-color             $urgent-color           $text-color             $base-color             $base-color
-client.placeholder      $base-color             $base-color             $inactive-text-color    $base-color
 
 # polybar
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # gaps
 for_window [class="^.*"] border pixel 2
-gaps inner 10
-gaps outer 0
+gaps inner 15
+gaps outer -5
 smart_gaps off
 
 # Flameshot
@@ -259,20 +279,22 @@ bindsym Print exec "flameshot gui"
 
 #xinput settings
 exec_always --no-startup-id xinput set-prop '10' 'libinput Accel Speed' -0.8
-exec_always --no-startup-id xinput set-prop 'Elan Touchpad' 321 1
-exec_always --no-startup-id xinput set-prop '10' 321 0
+#exec_always for id in $(xinput list | grep "pointer" | cut -d '=' -f 2 | cut -f 10); do xinput set-prop $id 'libinput Accel Speed' -0.8, 1; done
+exec_always --no-startup-id xinput set-prop 'Elan Touchpad' 289 1
+exec_always --no-startup-id xinput set-prop '10' 'libinput Natural Scrolling Enabled' 0
+exec_always --no-startup-id xinput set-prop 'Elan Touchpad' 'libinput Accel Speed' 
+exec_always --no-startup-id xinput set-prop 'Elan Touchpad' 'libinput Tapping Enabled' 1
 
 # Set wallpaper
-exec_always feh --bg-fill /home/miha/wallpapers/background.png
+exec_always feh --bg-fill /home/miha/wallpapers/jellyfish.png
 
 #brightness
- bindsym $mod+F12 exec backlight_control +10 
- bindsym $mod+F11 exec backlight_control -10
+ bindsym $mod+F12 exec backlight_control +1
+ bindsym $mod+F11 exec backlight_control -1
 
 #spotify_config
-bindsym $mod+F1 exec spotify
+#bindsym $mod+F1 exec spotify
 bindsym $mod+F8 exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
 bindsym $mod+F6 exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
 bindsym $mod+F7 exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
 
-#bindsym control+Shift+Escape exec btop
