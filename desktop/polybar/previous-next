@@ -16,7 +16,7 @@ font_index = 1
 update_delay = 0.3
 
 # (list) : list of chars containing previous, play, pause, next glyphs for media controls in respective order
-control_chars = ["‎","‎","‎","‎"]
+control_chars = ["‎","","","‎"]
 
 # (dict) : dict of char icons to display as prefix.
 # If player name is available as key, then use the corressponding icon,
@@ -24,6 +24,7 @@ control_chars = ["‎","‎","‎","‎"]
 # example:
 display_player_prefix = {
     "spotify":  '',
+    "firefox":  '',
     "default":  ''
 }
 
@@ -81,21 +82,21 @@ def update_prefix_suffix(player_name="", status=""):
 
     player_option = ""
     if player_name != "":
-        player_option = "-p" + player_name
+        player_option = "" + player_name
 
     prev_button = "%%{A:playerctl %s previous :}%c%%{A}"    %(player_option,control_chars[0])
     play_button = "%%{A:playerctl %s play :}%c%%{A}"        %(player_option,control_chars[1])
     pause_button = "%%{A:playerctl %s pause :}%c%%{A}"      %(player_option,control_chars[2])
     next_button = "%%{A:playerctl %s next :}%c%%{A}"        %(player_option,control_chars[3])
 
-    suffix = " | " + prev_button
+    suffix = "‎"
     if status == "Playing":
-        suffix += ""+pause_button;
+        suffix += "";
         status_paused = False
     else:
-        suffix += ""+play_button;
+        suffix += "";
         status_paused = True
-    suffix += ""+next_button
+    suffix += "";
     # print(suffix)
     display_suffix = suffix
 
@@ -196,10 +197,7 @@ def print_text():
         print("", flush = True)
         return
     scroll()
-    print(display_prefix + " " +
-        "%%{T%d}" % (font_index) +
-        make_visual_len(display_text, message_display_len) +
-        "%{T-}" + display_suffix, flush=True)
+    print(display_suffix, flush=True)
 
 def main():
     global current_player, players

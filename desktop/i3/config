@@ -181,10 +181,8 @@ mode "resize" {
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
         bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 p
 
-        # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
         bindsym Escape mode "default"
         bindsym $mod+r mode "default"
@@ -280,9 +278,9 @@ bindsym Print exec "flameshot gui"
 #xinput settings
 exec_always --no-startup-id xinput set-prop '10' 'libinput Accel Speed' -0.8
 #exec_always for id in $(xinput list | grep "pointer" | cut -d '=' -f 2 | cut -f 10); do xinput set-prop $id 'libinput Accel Speed' -0.8, 1; done
-exec_always --no-startup-id xinput set-prop 'Elan Touchpad' 289 1
+exec_always --no-startup-id xinput set-prop 'Elan Touchpad' 'libinput Natural Scrolling Enabled Default' 1
 exec_always --no-startup-id xinput set-prop '10' 'libinput Natural Scrolling Enabled' 0
-exec_always --no-startup-id xinput set-prop 'Elan Touchpad' 'libinput Accel Speed' 
+exec_always --no-startup-id xinput set-prop 'Elan Touchpad' 'libinput Accel Speed' 0
 exec_always --no-startup-id xinput set-prop 'Elan Touchpad' 'libinput Tapping Enabled' 1
 
 # Set wallpaper
