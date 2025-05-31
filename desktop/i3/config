@@ -14,7 +14,7 @@ exec --no-startup-id optimus-manager-qt
 #MONITORING
 #exec_always --no-startup-id xrandr --auto --output HDMI-1-0 --mode 1920x1080 --rate 144
 #exec_always --no-startup-id autorandr --change mainLayout
-exec_always --no-startup-id xrandr --output HDMI-0 --auto --primary --output eDP-1-1 --auto --right-of HDMI-0
+exec_always --no-startup-id xrandr --output HDMI-0 --rate 144 --auto --primary --output eDP-1-1 --auto --right-of HDMI-0
 exec --no-startup-id sleep 6 && setxkbmap -layout si -option 'grp:alt_shift_toggle'
 
 set $mod Mod4
@@ -113,6 +113,7 @@ bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
+for_window [class="^copyq$"] floating enable
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -156,14 +157,15 @@ bindsym $mod+Shift+4 move container to workspace number $ws4
 bindsym $mod+Shift+5 move container to workspace number $ws5
 bindsym $mod+Shift+6 move container to workspace number $ws6
 bindsym $mod+Shift+7 move container to workspace number $ws7
-bindsym $mod+Shift+8 move container t>output left
-
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -180,8 +182,9 @@ mode "resize" {
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
         bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 p
+        bindsym Up resize shrink height 10 px or 10 ppt
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
@@ -195,36 +198,38 @@ bindsym $mod+Ctrl+Down resize shrink height 1 px or 1 ppt
 bindsym $mod+Ctrl+Left resize grow width 1 px or 1 ppt
 
 # Resizing by 10
-bindsym $mod+Ctrl+Shift+Right resize shrink width 10 px or 10 ppt
+bindsym $mod+Ctrl+Shift+Right resize grow width 10 px or 10 ppt
 bindsym $mod+Ctrl+Shift+Up resize grow height 10 px or 10 ppt
 bindsym $mod+Ctrl+Shift+Down resize shrink height 10 px or 10 ppt
-bindsym $mod+Ctrl+Shift+Left resize grow width 10 px or 10 ppt
+bindsym $mod+Ctrl+Shift+Left resize shrink width 10 px or 10 ppt
 
 bindsym $mod+r mode "resize"
 
 exec --no-startup-id source ~/.fehbg
-bindsym $mod+shift+x exec betterlockscreen -l dim
+bindsym $mod+Shift+x exec betterlockscreen -l dim
 
 # Pipewire-pulse
 bindsym XF86AudioMute $exec pactl set-sink-mute 0 toggle
 bindsym XF86AudioLowerVolume $exec pactl set-sink-volume 0 -5%
 bindsym XF86AudioRaiseVolume $exec pactl set-sink-volume 0 +5%
-bindsym $mod+F2 exec pactl set-sink-volume 0 -5%
-bindsym $mod+F3 exec pactl set-sink-volume 0 +5%
-bindsym $mod+F4 exec pactl set-sink-mute 0 toggle
+bindsym $mod+F2 exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym $mod+F3 exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym $mod+F4 exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # Startup
-exec picom -bf
+exec --no-startup-id picom -b
+
 #exec dunst
 exec blueman-applet
 exec spotify
-exec vesktop
+exec discord-screenaudio
 exec redshift
 exec pasystray
 exec nm-applet
+exec copyq
 exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1
 
-for_window [class="vesktop"] move container to workspace $ws9
+for_window [class="discord-screenaudio"] move container to workspace $ws9
 for_window [class="Spotify"] move container to workspace $ws10
 
 set $rosewater #f4dbd6
@@ -272,27 +277,38 @@ gaps inner 15
 gaps outer -5
 smart_gaps off
 
+
+
+
 # Flameshot
 bindsym Print exec "flameshot gui"
 
 #xinput settings
-exec_always --no-startup-id xinput set-prop '10' 'libinput Accel Speed' -0.8
+#exec_always --no-startup-id xinput set-prop '10' 'libinput Accel Speed' -0.8
 #exec_always for id in $(xinput list | grep "pointer" | cut -d '=' -f 2 | cut -f 10); do xinput set-prop $id 'libinput Accel Speed' -0.8, 1; done
 exec_always --no-startup-id xinput set-prop 'Elan Touchpad' 'libinput Natural Scrolling Enabled Default' 1
-exec_always --no-startup-id xinput set-prop '10' 'libinput Natural Scrolling Enabled' 0
+exec_always --no-startup-id xinput set-prop 'Elan Touchpad' 'libinput Natural Scrolling Enabled' 1
 exec_always --no-startup-id xinput set-prop 'Elan Touchpad' 'libinput Accel Speed' 0
 exec_always --no-startup-id xinput set-prop 'Elan Touchpad' 'libinput Tapping Enabled' 1
 
 # Set wallpaper
-exec_always feh --bg-fill /home/miha/wallpapers/jellyfish.png
+exec_always feh --bg-fill /home/miha/wallpapers/wallpaper.jpg
 
 #brightness
- bindsym $mod+F12 exec backlight_control +1
- bindsym $mod+F11 exec backlight_control -1
+ bindsym $mod+F12 exec backlight_control +10
+ bindsym $mod+F11 exec backlight_control -10
 
 #spotify_config
 #bindsym $mod+F1 exec spotify
 bindsym $mod+F8 exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
 bindsym $mod+F6 exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
 bindsym $mod+F7 exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+#volume
+bindsym $mod+Shift+F3 exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Set string:"org.mpris.MediaPlayer2.Player" string:"Volume" variant:double:$(echo "$(playerctl -p spotify volume) + 0.05" | bc)
+bindsym $mod+Shift+F2 exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Set string:"org.mpris.MediaPlayer2.Player" string:"Volume" variant:double:$(echo "$(playerctl -p spotify volume) - 0.05" | bc)
+
+#---------------POWERMENU---------------#
+bindsym $mod+Shift+e exec --no-startup-id .config/rofi/powermenu/type-2/powermenu.sh
+
+
 
