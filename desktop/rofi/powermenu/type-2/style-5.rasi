@@ -157,7 +157,7 @@ element {
     cursor:                      pointer;
 }
 element-text {
-    font:                        "feather bold 24";
+    font:                        "Symbols Nerd Font Mono 24";
     background-color:            transparent;
     text-color:                  inherit;
     cursor:                      inherit;

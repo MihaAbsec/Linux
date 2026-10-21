@@ -43,7 +43,7 @@
 
 	# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 	# screen before suspend. Use loginctl lock-session to lock your screen.
-	exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+	exec_always --no-startup-id ~/.config/i3/start-screen-lock.sh
 
 	# NetworkManager is the most popular way to manage wireless networks on Linux,
 	# and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -58,8 +58,11 @@
 
 	# start a terminal
 	bindsym $mod+Return exec kitty
+	bindsym F12 exec --no-startup-id ~/.config/i3/dropdown-terminal.py
 	# i3-sensible-terminal
-	bindsym $mod+Shift+Return exec nemo
+	#bindsym $mod+Shift+Return exec nemo
+	#bindsym $mod+Shift+Return exec nautilus --new-window
+	bindsym $mod+Shift+Return exec --no-startup-id env ADW_DISABLE_PORTAL=1 nautilus --new-window
 
 	# kill focused window
 	bindsym $mod+Shift+q kill
@@ -218,7 +221,7 @@
 	bindsym $mod+r mode "resize"
 
 	exec --no-startup-id source ~/.fehbg
-	bindsym $mod+Shift+x exec betterlockscreen -l dim
+	bindsym $mod+Shift+x exec ~/.config/i3/lock-screen.sh
 
 	# Pipewire-pulse
 	bindsym XF86AudioMute $exec pactl set-sink-mute 0 toggle
@@ -272,7 +275,7 @@ set $mantle #1e2030
 set $crust #181926
 
 # target                 title     bg    text   indicator  border
-client.focused           $lavender $base $text  $rosewater $lavender
+client.focused           $mauve $base $text  $mauve $mauve
 client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
 client.unfocused         $overlay0 $base $text  $rosewater $overlay0
 client.urgent            $peach    $base $peach $overlay0  $peach
@@ -285,6 +288,7 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # gaps
 for_window [class="^.*"] border pixel 2
+for_window [class="^kitty-dropdown$"] floating enable, resize set 85 ppt 55 ppt, move scratchpad
 gaps inner 15
 gaps outer -5
 smart_gaps off
@@ -333,4 +337,6 @@ bindsym $mod+Shift+e exec --no-startup-id .config/rofi/powermenu/type-2/powermen
 #---------------NETWORKING---------------#
 bindsym $mod+Shift+F7 exec --no-startup-id .local/bin/toggle-network.sh
 
-
+# Sleepmode fix
+exec --no-startup-id caffeine
+exec --no-startup-id xset s off -dpms
